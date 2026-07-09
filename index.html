@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TQR Scanner & Generator</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+
+body{
+
+    background:#080B1A;
+    color:#F8FAFC;
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+
+/* Welcome */
+
+#welcome{
+
+    position:fixed;
+
+    inset:0;
+
+    background:#080B1A;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:32px;
+
+    font-weight:700;
+
+    color:white;
+
+    z-index:10;
+
+    animation:welcome 2s forwards;
+
+}
+
+
+#welcome span{
+
+    color:#06B6D4;
+
+    text-shadow:
+    0 0 20px #06B6D4;
+
+}
+
+
+@keyframes welcome{
+
+    0%{
+        opacity:1;
+    }
+
+    70%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:0;
+        visibility:hidden;
+    }
+
+}
+
+
+
+/* Main */
+
+.container{
+
+    width:430px;
+
+    background:#111827;
+
+    padding:30px;
+
+    border-radius:25px;
+
+
+    box-shadow:
+
+    0 0 35px rgba(124,58,237,.4),
+    0 0 40px rgba(6,182,212,.2);
+
+}
+
+
+
+h1{
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.subtitle{
+
+    text-align:center;
+
+    color:#94A3B8;
+
+    margin-bottom:30px;
+
+}
+
+
+
+/* Buttons */
+
+
+button{
+
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    margin:10px 0;
+
+    background:#7C3AED;
+
+    transition:.3s;
+
+}
+
+
+
+button:hover{
+
+    box-shadow:0 0 25px #7C3AED;
+
+    transform:translateY(-3px);
+
+}
+
+
+.scanBtn{
+
+    background:#06B6D4;
+
+}
+
+
+.back{
+
+    background:#334155;
+
+}
+
+
+
+/* Pages */
+
+
+.page{
+
+    display:none;
+
+}
+
+
+
+.active{
+
+    display:block;
+
+}
+
+
+
+input{
+
+    width:100%;
+
+    padding:14px;
+
+    background:#080B1A;
+
+    border:1px solid #334155;
+
+    border-radius:12px;
+
+    color:white;
+
+    outline:none;
+
+}
+
+
+
+#qrcode{
+
+    background:white;
+
+    width:max-content;
+
+    padding:15px;
+
+    margin:20px auto;
+
+    border-radius:10px;
+
+}
+
+
+
+#reader{
+
+    margin-top:20px;
+
+}
+
+
+
+.result{
+
+    margin-top:15px;
+
+    color:#22D3EE;
+
+    text-align:center;
+
+}
+
+
+
+.option-title{
+
+    text-align:center;
+
+    margin:20px 0;
+
+    color:#CBD5E1;
+
+}
+
+
+@media(max-width:600px){
+
+.container{
+
+    width:90%;
+
+}
+
+#welcome{
+
+    font-size:22px;
+
+}
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<div id="welcome">
+
+<span>
+Welcome to TQR Scanner & Generator
+</span>
+
+</div>
+
+
+
+<div class="container">
+
+
+
+<!-- HOME -->
+
+<div id="home" class="page active">
+
+
+<h1>
+⚡ TQR Scanner & Generator
+</h1>
+
+
+<div class="subtitle">
+
+What would you like to create or scan today?
+
+</div>
+
+
+<button onclick="openPage('generate')">
+
+🟣 Generate QR Code
+
+</button>
+
+
+<button class="scanBtn" onclick="openPage('scan')">
+
+🔵 Scan QR Code
+
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- GENERATE -->
+
+
+<div id="generate" class="page">
+
+
+<h1>
+Generate QR
+</h1>
+
+
+<input id="text"
+placeholder="Enter text or URL">
+
+
+<button onclick="generateQR()">
+
+Create QR Code
+
+</button>
+
+
+<div id="qrcode"></div>
+
+
+<button onclick="downloadQR()">
+
+Download QR
+
+</button>
+
+
+<button class="back" onclick="openPage('home')">
+
+← Back
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+<!-- SCAN -->
+
+
+<div id="scan" class="page">
+
+
+<h1>
+Scan QR
+</h1>
+
+
+
+<div class="option-title">
+
+Choose scanning method
+
+</div>
+
+
+
+<button class="scanBtn" onclick="cameraScan()">
+
+📷 Scan with Camera
+
+</button>
+
+
+<input type="file" id="qrfile" accept="image/*">
+
+
+<button onclick="imageScan()">
+
+🖼️ Scan from Image
+
+</button>
+
+
+<div id="reader"></div>
+
+
+<div class="result" id="result">
+
+</div>
+
+
+<button class="back" onclick="openPage('home')">
+
+← Back
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<script>
+
+
+function openPage(page){
+
+document.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
+
+
+document.getElementById(page)
+.classList.add("active");
+
+
+}
+
+
+
+
+let qr;
+
+
+
+function generateQR(){
+
+
+let text=document.getElementById("text").value;
+
+
+if(!text){
+
+alert("Enter text");
+
+return;
+
+}
+
+
+document.getElementById("qrcode").innerHTML="";
+
+
+qr=new QRCode(
+document.getElementById("qrcode"),
+{
+
+text:text,
+
+width:200,
+
+height:200
+
+});
+
+
+}
+
+
+
+function downloadQR(){
+
+
+let img=document.querySelector("#qrcode img");
+
+
+if(!img){
+
+alert("Generate QR first");
+
+return;
+
+}
+
+
+let a=document.createElement("a");
+
+a.href=img.src;
+
+a.download="TQR.png";
+
+a.click();
+
+
+}
+
+
+
+
+function cameraScan(){
+
+
+let scanner=new Html5Qrcode("reader");
+
+
+scanner.start(
+
+{
+facingMode:"environment"
+},
+
+{
+
+fps:10,
+
+qrbox:250
+
+},
+
+
+(text)=>{
+
+
+document.getElementById("result").innerHTML=
+"✅ "+text;
+
+
+scanner.stop();
+
+
+}
+
+);
+
+
+}
+
+
+
+
+function imageScan(){
+
+
+let file=document.getElementById("qrfile").files[0];
+
+
+if(!file){
+
+alert("Select QR image");
+
+return;
+
+}
+
+
+let scanner=new Html5Qrcode("reader");
+
+
+scanner.scanFile(file,true)
+
+.then(result=>{
+
+
+document.getElementById("result").innerHTML=
+"✅ "+result;
+
+
+})
+
+.catch(()=>{
+
+alert("QR not found");
+
+});
+
+
+}
+
+
+
+</script>
+
+
+</body>
+</html>
