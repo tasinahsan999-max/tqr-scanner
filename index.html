@@ -7,6 +7,7 @@
 
 <title>TQR Scanner & Generator</title>
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script src="https://unpkg.com/html5-qrcode"></script>
@@ -36,7 +37,8 @@ body{
 }
 
 
-/* Welcome */
+
+/* Welcome Screen */
 
 #welcome{
 
@@ -65,6 +67,7 @@ body{
 }
 
 
+
 #welcome span{
 
     color:#06B6D4;
@@ -75,26 +78,42 @@ body{
 }
 
 
+
+
 @keyframes welcome{
 
-    0%{
-        opacity:1;
-    }
 
-    70%{
-        opacity:1;
-    }
+0%{
 
-    100%{
-        opacity:0;
-        visibility:hidden;
-    }
+opacity:1;
+
+}
+
+
+70%{
+
+opacity:1;
+
+}
+
+
+100%{
+
+opacity:0;
+
+visibility:hidden;
+
+}
+
 
 }
 
 
 
-/* Main */
+
+
+/* Main Container */
+
 
 .container{
 
@@ -110,9 +129,12 @@ body{
     box-shadow:
 
     0 0 35px rgba(124,58,237,.4),
+
     0 0 40px rgba(6,182,212,.2);
 
 }
+
+
 
 
 
@@ -126,6 +148,8 @@ h1{
 
 
 
+
+
 .subtitle{
 
     text-align:center;
@@ -135,6 +159,8 @@ h1{
     margin-bottom:30px;
 
 }
+
+
 
 
 
@@ -170,6 +196,7 @@ button{
 
 
 
+
 button:hover{
 
     box-shadow:0 0 25px #7C3AED;
@@ -179,6 +206,9 @@ button:hover{
 }
 
 
+
+
+
 .scanBtn{
 
     background:#06B6D4;
@@ -186,11 +216,16 @@ button:hover{
 }
 
 
+
+
+
 .back{
 
     background:#334155;
 
 }
+
+
 
 
 
@@ -213,7 +248,10 @@ button:hover{
 
 
 
+
+
 input{
+
 
     width:100%;
 
@@ -233,7 +271,10 @@ input{
 
 
 
+
+
 #qrcode{
+
 
     background:white;
 
@@ -249,27 +290,71 @@ input{
 
 
 
+
+/* Scanner Fix */
+
+
 #reader{
 
-    margin-top:20px;
+    margin-top:15px;
+
+    max-height:180px;
+
+    overflow:hidden;
 
 }
+
+
 
 
 
 .result{
 
-    margin-top:15px;
 
-    color:#22D3EE;
+    margin-top:10px;
+
+    padding:12px;
+
+    background:#0F172A;
+
+    border-radius:12px;
+
+    word-break:break-word;
+
+    max-height:120px;
+
+    overflow:auto;
 
     text-align:center;
+
+    color:#22D3EE;
 
 }
 
 
 
+
+.result a{
+
+    color:#22D3EE;
+
+    text-decoration:none;
+
+}
+
+
+
+.result a:hover{
+
+    text-decoration:underline;
+
+}
+
+
+
+
 .option-title{
+
 
     text-align:center;
 
@@ -280,7 +365,11 @@ input{
 }
 
 
+
+
+
 @media(max-width:600px){
+
 
 .container{
 
@@ -288,21 +377,22 @@ input{
 
 }
 
+
+
 #welcome{
 
     font-size:22px;
 
 }
 
+
 }
+
 
 
 </style>
 
-
 </head>
-
-
 <body>
 
 
@@ -316,11 +406,12 @@ Welcome to TQR Scanner & Generator
 
 
 
+
 <div class="container">
 
 
 
-<!-- HOME -->
+<!-- HOME PAGE -->
 
 <div id="home" class="page active">
 
@@ -330,11 +421,13 @@ Welcome to TQR Scanner & Generator
 </h1>
 
 
+
 <div class="subtitle">
 
 What would you like to create or scan today?
 
 </div>
+
 
 
 <button onclick="openPage('generate')">
@@ -344,11 +437,14 @@ What would you like to create or scan today?
 </button>
 
 
+
+
 <button class="scanBtn" onclick="openPage('scan')">
 
 🔵 Scan QR Code
 
 </button>
+
 
 
 </div>
@@ -357,19 +453,28 @@ What would you like to create or scan today?
 
 
 
-<!-- GENERATE -->
+
+
+<!-- GENERATE QR PAGE -->
 
 
 <div id="generate" class="page">
 
 
 <h1>
+
 Generate QR
+
 </h1>
 
 
-<input id="text"
-placeholder="Enter text or URL">
+
+<input 
+id="text"
+placeholder="Enter text or URL"
+>
+
+
 
 
 <button onclick="generateQR()">
@@ -379,7 +484,11 @@ Create QR Code
 </button>
 
 
+
+
 <div id="qrcode"></div>
+
+
 
 
 <button onclick="downloadQR()">
@@ -389,11 +498,14 @@ Download QR
 </button>
 
 
+
+
 <button class="back" onclick="openPage('home')">
 
 ← Back
 
 </button>
+
 
 
 </div>
@@ -403,15 +515,20 @@ Download QR
 
 
 
-<!-- SCAN -->
+
+
+<!-- SCAN PAGE -->
 
 
 <div id="scan" class="page">
 
 
 <h1>
+
 Scan QR
+
 </h1>
+
 
 
 
@@ -423,6 +540,8 @@ Choose scanning method
 
 
 
+
+
 <button class="scanBtn" onclick="cameraScan()">
 
 📷 Scan with Camera
@@ -430,7 +549,16 @@ Choose scanning method
 </button>
 
 
-<input type="file" id="qrfile" accept="image/*">
+
+
+
+<input 
+type="file" 
+id="qrfile" 
+accept="image/*"
+>
+
+
 
 
 <button onclick="imageScan()">
@@ -440,12 +568,23 @@ Choose scanning method
 </button>
 
 
+
+
+
+
 <div id="reader"></div>
+
+
+
 
 
 <div class="result" id="result">
 
 </div>
+
+
+
+
 
 
 <button class="back" onclick="openPage('home')">
@@ -455,13 +594,15 @@ Choose scanning method
 </button>
 
 
+
+
 </div>
 
 
 
+
+
 </div>
-
-
 
 
 
@@ -471,12 +612,17 @@ Choose scanning method
 
 function openPage(page){
 
+
 document.querySelectorAll(".page")
+
 .forEach(p=>p.classList.remove("active"));
 
 
+
 document.getElementById(page)
+
 .classList.add("active");
+
 
 
 }
@@ -488,10 +634,13 @@ let qr;
 
 
 
+
 function generateQR(){
 
 
+
 let text=document.getElementById("text").value;
+
 
 
 if(!text){
@@ -503,11 +652,15 @@ return;
 }
 
 
+
 document.getElementById("qrcode").innerHTML="";
 
 
+
 qr=new QRCode(
+
 document.getElementById("qrcode"),
+
 {
 
 text:text,
@@ -516,38 +669,144 @@ width:200,
 
 height:200
 
-});
+}
+
+);
+
 
 
 }
+
+
+
+
 
 
 
 function downloadQR(){
 
 
-let img=document.querySelector("#qrcode img");
+
+let qrBox=document.getElementById("qrcode");
 
 
-if(!img){
+
+let img=qrBox.querySelector("img");
+
+let canvas=qrBox.querySelector("canvas");
+
+
+
+let link=document.createElement("a");
+
+
+
+link.download="TQR.png";
+
+
+
+
+
+if(img){
+
+
+link.href=img.src;
+
+
+}
+
+
+
+else if(canvas){
+
+
+link.href=canvas.toDataURL("image/png");
+
+
+}
+
+
+
+else{
+
 
 alert("Generate QR first");
 
 return;
 
+
+}
+
+
+
+
+document.body.appendChild(link);
+
+
+
+link.click();
+
+
+
+document.body.removeChild(link);
+
+
+
 }
 
 
-let a=document.createElement("a");
 
-a.href=img.src;
 
-a.download="TQR.png";
 
-a.click();
+
+
+
+function showResult(text){
+
+
+
+let result=document.getElementById("result");
+
+
+
+if(
+text.startsWith("http://") ||
+text.startsWith("https://")
+){
+
+
+
+result.innerHTML=`
+
+<a href="${text}" target="_blank">
+
+🔗 ${text}
+
+</a>
+
+`;
+
 
 
 }
+
+else{
+
+
+
+result.innerHTML="✅ "+text;
+
+
+
+}
+
+
+
+}
+
+
+
+
 
 
 
@@ -555,14 +814,20 @@ a.click();
 function cameraScan(){
 
 
+
 let scanner=new Html5Qrcode("reader");
+
 
 
 scanner.start(
 
+
 {
+
 facingMode:"environment"
+
 },
+
 
 {
 
@@ -573,22 +838,32 @@ qrbox:250
 },
 
 
+
 (text)=>{
 
 
-document.getElementById("result").innerHTML=
-"✅ "+text;
+showResult(text);
+
 
 
 scanner.stop();
 
 
+
 }
+
+
 
 );
 
 
+
 }
+
+
+
+
+
 
 
 
@@ -596,45 +871,71 @@ scanner.stop();
 function imageScan(){
 
 
+
 let file=document.getElementById("qrfile").files[0];
+
 
 
 if(!file){
 
+
 alert("Select QR image");
+
 
 return;
 
+
 }
+
+
+
 
 
 let scanner=new Html5Qrcode("reader");
 
 
+
+
+
 scanner.scanFile(file,true)
+
+
 
 .then(result=>{
 
 
-document.getElementById("result").innerHTML=
-"✅ "+result;
+
+showResult(result);
+
+
+
+document.getElementById("reader").innerHTML="";
+
 
 
 })
 
+
+
 .catch(()=>{
 
+
 alert("QR not found");
+
 
 });
 
 
+
 }
+
 
 
 
 </script>
 
 
+
 </body>
+
 </html>
